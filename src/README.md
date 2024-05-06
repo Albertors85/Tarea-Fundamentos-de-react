@@ -1,0 +1,1 @@
+Gracias por todo, me quedan varios puntos por hacer y otros por corregir, pero cualquier guìa me será de gran ayuda. Perdón por no poder entregarlo entero, pero no he podido darle a full hasta un día después de arreglar mi problema com Macs.
