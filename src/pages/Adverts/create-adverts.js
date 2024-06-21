@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../components/layout/layout.js";
 import { createAdvert } from "./services.js";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function NewAdvert() {
   const navigate = useNavigate();
 
+  const [isButton, setIsButton ]= useState(false)
   const [tagsValue, setTagsValue] = useState([]);
   const [formValue, setFormValue] = useState({
     name: "",
@@ -14,6 +15,7 @@ export default function NewAdvert() {
     situation: "Venta",
     tags: [],
   });
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,6 +49,11 @@ export default function NewAdvert() {
       checked ? [...curretTags, name] : curretTags.filter((tag) => tag !== name)
     );
   };
+
+  useEffect(()=>{
+    const  {name, price, info, situation}= formValue;
+    setIsButton(name&&price&&info&&situation&&tagsValue.length>0)
+  }, [formValue,tagsValue])
 
   return (
     <Layout>
@@ -129,7 +136,7 @@ export default function NewAdvert() {
         <label>Sport</label>
         <br></br>
 
-        <button type="submit">Agregar</button>
+        <button type="submit" disabled={!isButton}>Agregar</button>
       </form>
     </Layout>
   );

@@ -36,6 +36,11 @@ function AdvertPage() {
       <p>{advert && advert.price}</p>
       <p>{advert && advert.situation}</p>
       <p>{advert && advert.info}</p>
+      <ul>
+        {advert && advert.tags.map((tag, index) => (
+          <li key={index}>{tag}</li>
+        ))}
+      </ul>
       <button type="button" onClick={() => handleDelete(advert.id)}>
         Delete
       </button>
