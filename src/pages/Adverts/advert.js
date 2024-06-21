@@ -1,44 +1,45 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/layout/layout.js";
 import { useEffect, useState } from "react";
-import { getAdvert } from "./services.js";
+import { getAdvert, deleteAdvert } from "./services.js";
 
-function AdvertPage(){
-    const params = useParams();
-    const [advert, setAdvert]= useState(null);
-    const navigate = useNavigate ();
-  
+function AdvertPage() {
+  const [advert, setAdvert] = useState(null);
 
-    useEffect(()=>{
+  const params = useParams();
+  const navigate = useNavigate();
 
-        async function getAdvertDetail(){
+  useEffect(() => {
+    async function getAdvertDetail() {
+      try {
+        const advert = await getAdvert(params.advertId);
+        setAdvert(advert);
+      } catch (error) {
+        if (error.status === 404) {
+          navigate("/404");
+        }
+      }
+    }
 
-            try{
-                const advert = await getAdvert(params.advertId);
-                setAdvert(advert)
+    getAdvertDetail();
+  }, [params.advertId, navigate]);
 
-            }catch(error){
-                if(error.status === 404){
-                    navigate('/404')// cambiar a notFondPage
-                }
-            }
-             
-        };
+  const handleDelete = async (advertId) => {
+    try {
+      await deleteAdvert(advertId);
+      navigate("/");
+    } catch (error) {}
+  };
 
-       getAdvertDetail();
-       
-    },[params.advertId,navigate])
-    
-   console.log(advert)
-    return <Layout title='diosss'>
-        <h2>{advert && advert.name}</h2>
-        <p>{advert && advert.price}</p>
-        <p>{advert && advert.situation}</p>
-        <p>{advert && advert.info}</p>
+  return (
+    <Layout title={advert && advert.name}>
+      <p>{advert && advert.price}</p>
+      <p>{advert && advert.situation}</p>
+      <p>{advert && advert.info}</p>
+      <button type="button" onClick={() => handleDelete(advert.id)}>
+        Delete
+      </button>
     </Layout>
-    
-
-  
-};
+  );
+}
 export default AdvertPage;
-

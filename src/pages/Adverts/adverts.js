@@ -1,79 +1,131 @@
 import { useEffect, useState } from "react";
 import { getAdverts } from "./services.js";
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from "react-router-dom";
 import Layout from "../../components/layout/layout.js";
 
-function AdvertsPage(){
-    
-    const [adverts, setAdverts]= useState([]);
+function AdvertsPage() {
+  const [adverts, setAdverts] = useState([]);
+  const [maxMin, setMaxMin] = useState({
+    max: "",
+    min: "",
+  });
+  const [situation, setSituation] = useState("");
 
-  
-    useEffect(()=>{
-        getAdverts().then(adverts => setAdverts(adverts))
-    },[]);
-    
-    return (
-       <Layout>
-            <div>
-                {adverts.length ? (
+  const { max, min } = maxMin;
+
+  useEffect(() => {
+    getAdverts().then((adverts) => setAdverts(adverts));
+  }, []);
+
+  const handlerChangePrice = (event) => {
+    setMaxMin((newPriceValue) => ({
+      ...newPriceValue,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const hadleSituation = (event) => {
+    const { value } = event.target;
+    const pre = situation;
+    if (pre === value) {
+      setSituation("");
+    } else {
+      setSituation(value);
+    }
+  };
+
+  const advertVisible = (advertPrice, minPrice, maxPrice) => {
+    const price = parseFloat(advertPrice);
+    const visible =
+      (!minPrice || price >= minPrice) && (!maxPrice || price <= maxPrice);
+    return visible;
+  };
+
+  const visibleAdverts = adverts.filter((advert) =>
+    advertVisible(advert.price, min, max)
+  );
+
+  return (
+    <Layout>
+      <div>
+        {visibleAdverts.length ? (
+          <ul>
+            {visibleAdverts.map((advert) => {
+              return (
+                <li
+                  key={advert.id}
+                  name={advert.name}
+                  style={{
+                    display:
+                      advert.situation === situation || !situation
+                        ? "block"
+                        : "none",
+                  }}
+                >
+                  <Link to={`/adverts/${advert.id}`}>
+                    <h3>{advert.name}</h3>
+                    <p>{advert.price}</p>
+                    <p>{advert.info}</p>
+                    <p>{advert.situation}</p>
+
                     <ul>
-                     {adverts.map(({id, ...advert})=> 
-                     <li key={id}>
-                        <Link to={`/adverts/${id}`}>
-                            <h3>{advert.name}</h3>
-                            <p>{advert.price}</p>
-                            <p>{advert.info}</p>
-                            <p>{advert.id}</p>
-                            <p>{advert.situation}</p>
-                        </Link>
-                     </li>
-                        
-                        )}
+                      {advert.tags.map((tag, index) => (
+                        <li key={index}>{tag}</li>
+                      ))}
                     </ul>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <NavLink to="/adverts/new" end>
+            <p>No hay anuncios, se el p!!</p>
+          </NavLink>
+        )}
+      </div>
+      <form>
+        <h4>Filtros:</h4>
+        <input
+          type="checkbox"
+          name="destiny"
+          value={"Venta"}
+          checked={situation === "Venta"}
+          onChange={hadleSituation}
+        />
+        <label>Venta</label>
 
-                ):(<h2>No anuncios</h2>)}
-               
-            </div>
-            <form>
-                   
-                <input type="radio" name="destiny"/>
-                <label>Venta</label>
+        <input
+          type="checkbox"
+          name="destiny"
+          value={"Compra"}
+          checked={situation === "Compra"}
+          onChange={hadleSituation}
+        />
+        <label>compra</label>
 
-                <input type="radio" name="destiny"/>
-                <label>compra</label>
-
-                <input type="radio" name="destiny"/>
-                <label>todos</label>
-
-                <input type="number" name="max"/>
-                <input type="number" name="min"/>
-                <label>Filtra por precio</label>
-                    
-            </form>
-
-       </Layout>
-
-    )
-
+        <br></br>
+        <br></br>
+        <label>precio</label>
+        <br></br>
+        <label>max</label>
+        <input
+          type="number"
+          name="max"
+          value={max}
+          onChange={handlerChangePrice}
+        />
+        <br></br>
+        <label>minim</label>
+        <input
+          type="number"
+          name="min"
+          value={min}
+          onChange={handlerChangePrice}
+        />
+      </form>
+    </Layout>
+  );
 }
-
 
 export default AdvertsPage;
-
-
-
-
-
-
-
-
-/*
-function AdvertsPage(){
-
-    return <div>
-        <ul>
-            {adverts.map(advert=><li key={advert.id}>{advert.content}</li>)}
-        </ul>
-    </div>;
-}
-export default AdvertsPage;*/
