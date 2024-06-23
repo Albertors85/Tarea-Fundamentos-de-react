@@ -6,7 +6,7 @@ import storage from "./util/storage.js";
 import { authHeader } from "./api/client.js";
 import { AuthContextProvider } from "./pages/login/context.js";
 import { BrowserRouter } from "react-router-dom";
-
+// guardando para redux
 const accessToken = storage.get("auth");
 if (accessToken) {
   authHeader(accessToken);
