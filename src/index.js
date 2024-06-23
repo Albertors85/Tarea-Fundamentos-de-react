@@ -6,6 +6,11 @@ import storage from "./util/storage.js";
 import { authHeader } from "./api/client.js";
 import { AuthContextProvider } from "./pages/login/context.js";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import confiStore from "./store/index.js";
+
+const store = confiStore();
+window.store= store
 
 const accessToken = storage.get("auth");
 if (accessToken) {
