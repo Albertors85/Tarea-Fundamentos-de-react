@@ -4,7 +4,7 @@ export const authLogin = () => ({
   type: Auth_Login,
 });
 
-export const AuthLogOut = () => ({
+export const authLogOut = () => ({
   type: Auth_LogOut,
 });
 

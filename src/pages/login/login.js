@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { login } from "./service.js";
 import Layout from "../../components/layout/layout.js";
-import { useAuth } from "./context.js";
+
+//import { useAuth } from "./context.js";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { authLogin } from "../../store/actions.js";
 
 function LoginUser() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { onLogin } = useAuth();
+  
+  //const { onLogin } = useAuth();
+
+  const dispatch = useDispatch();
+
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
   const [formValue, setFormValue] = useState({
@@ -34,7 +42,8 @@ function LoginUser() {
       setIsFetching(true);
       await login(formValue, memory);
       setIsFetching(false);
-      onLogin();
+      //onLogin();
+      dispatch(authLogin());
       const goTo = location.state?.from || "/";
       navigate(goTo);
     } catch (error) {

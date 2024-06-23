@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/layout/layout.js";
-import { useEffect, useState } from "react";
+
+//import { useEffect, useState } from "react";
+
 import { getAdvert, deleteAdvert } from "./services.js";
+import { useSelector } from "react-redux";
+import { getAdvertId } from "../../store/selectors.js";
 
 function AdvertPage() {
-  const [advert, setAdvert] = useState(null);
-
-  const params = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  /*const [advert, setAdvert] = useState(null);
+   useEffect(() => {
     async function getAdvertDetail() {
       try {
         const advert = await getAdvert(params.advertId);
@@ -22,7 +22,12 @@ function AdvertPage() {
     }
 
     getAdvertDetail();
-  }, [params.advertId, navigate]);
+  }, [params.advertId, navigate]);*/
+
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const advert = useSelector((state) => getAdvertId(state, params.advertId));
 
   const handleDelete = async (advertId) => {
     try {
@@ -37,9 +42,7 @@ function AdvertPage() {
       <p>{advert && advert.situation}</p>
       <p>{advert && advert.info}</p>
       <ul>
-        {advert && advert.tags.map((tag, index) => (
-          <li key={index}>{tag}</li>
-        ))}
+        {advert && advert.tags.map((tag, index) => <li key={index}>{tag}</li>)}
       </ul>
       <button type="button" onClick={() => handleDelete(advert.id)}>
         Delete

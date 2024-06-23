@@ -23,11 +23,9 @@ export function advertsF(state = initialState.adverts, action) {
       return action.payload;
 
     case Advert_Create:
-      return [...state.adverts, action.payload];//state.adverts
+      return [...state, action.payload]; //state.adverts
 
     default:
       return state;
   }
 }
-
-

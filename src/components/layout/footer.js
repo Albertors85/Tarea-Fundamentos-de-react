@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <footer>@2024 nombr aqui</footer>;
+  return <footer>@2024 nombre aqui</footer>;
 }

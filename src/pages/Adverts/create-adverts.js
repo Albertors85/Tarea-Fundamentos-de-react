@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function NewAdvert() {
   const navigate = useNavigate();
 
-  const [isButton, setIsButton ]= useState(false)
+  const [isButton, setIsButton] = useState(false);
   const [tagsValue, setTagsValue] = useState([]);
   const [formValue, setFormValue] = useState({
     name: "",
@@ -15,7 +15,6 @@ export default function NewAdvert() {
     situation: "Venta",
     tags: [],
   });
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,10 +49,10 @@ export default function NewAdvert() {
     );
   };
 
-  useEffect(()=>{
-    const  {name, price, info, situation}= formValue;
-    setIsButton(name&&price&&info&&situation&&tagsValue.length>0)
-  }, [formValue,tagsValue])
+  useEffect(() => {
+    const { name, price, info, situation } = formValue;
+    setIsButton(name && price && info && situation && tagsValue.length > 0);
+  }, [formValue, tagsValue]);
 
   return (
     <Layout>
@@ -136,7 +135,9 @@ export default function NewAdvert() {
         <label>Sport</label>
         <br></br>
 
-        <button type="submit" disabled={!isButton}>Agregar</button>
+        <button type="submit" disabled={!isButton}>
+          Agregar
+        </button>
       </form>
     </Layout>
   );
