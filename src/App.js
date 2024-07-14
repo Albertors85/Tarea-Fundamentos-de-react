@@ -25,8 +25,8 @@ function App() {
         <Route path="new" element={<NewAdvert />} />
       </Route>
 
-      <Route path="/404" element={<NotFoundPage/>} />
-      <Route path="*" element={<NotFoundPage/>} />
+      <Route path="/404" element={<NotFoundPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

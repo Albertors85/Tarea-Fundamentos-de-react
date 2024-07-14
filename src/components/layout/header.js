@@ -1,17 +1,12 @@
 import { logout } from "../../pages/login/service.js";
-
-//import { useAuth } from "../../pages/login/context.js";
 import { Link, NavLink } from "react-router-dom";
-
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsLogged } from "../../store/selectors.js";
 import { authLogOut } from "../../store/actions.js";
 
 export default function Header() {
-  // const { isLogged, onLogout } = useAuth();
   const isLogged = useSelector(getIsLogged);
-  //const { onLogout } = useAuth();
   const dispatch = useDispatch();
 
   const handleLogout = async () => {

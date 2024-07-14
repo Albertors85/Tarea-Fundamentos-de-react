@@ -7,9 +7,6 @@ import { advertsLoad } from "../../store/actions.js";
 import { getAdvertsR } from "../../store/selectors.js";
 
 function AdvertsPage() {
-  
-  //const [adverts, setAdverts] = useState([]);
-  
   const dispatch = useDispatch();
   const adverts = useSelector(getAdvertsR);
   const [maxMin, setMaxMin] = useState({
