@@ -7,10 +7,7 @@ export const getAdverts = () => {
   return client.get(url);
 };
 
-/*export const getAdvert = (advertId) => {
-  const url = `${advertsUrl}/${advertId}`;
-  return client.get(url);
-};*/
+
 
 export const createAdvert = (advert) => {
   return client.post(advertsUrl, advert);

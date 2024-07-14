@@ -4,6 +4,7 @@ import NewAdvert from "./pages/Adverts/create-adverts.js";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import AdvertPage from "./pages/Adverts/advert.js";
 import RequireAuth from "./pages/login/tools/require-auth.js";
+import NotFoundPage from "./pages/notFound.js";
 //probando
 function App() {
   return (
@@ -24,8 +25,8 @@ function App() {
         <Route path="new" element={<NewAdvert />} />
       </Route>
 
-      <Route path="/404" element={<div> 400 | not found</div>} />
-      <Route path="*" element={<Navigate to="/404" />} />
+      <Route path="/404" element={<NotFoundPage/>} />
+      <Route path="*" element={<NotFoundPage/>} />
     </Routes>
   );
 }
