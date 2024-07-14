@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { getAdverts } from "./services.js";
 import { Link, NavLink } from "react-router-dom";
 import Layout from "../../components/layout/layout.js";
+import { useDispatch, useSelector } from "react-redux";
+import { advertsLoad } from "../../store/actions.js";
+import { getAdvertsR } from "../../store/selectors.js";
 
 function AdvertsPage() {
-  const [adverts, setAdverts] = useState([]);
+  const dispatch = useDispatch();
+  const adverts = useSelector(getAdvertsR);
   const [maxMin, setMaxMin] = useState({
     max: "",
     min: "",
@@ -14,8 +18,10 @@ function AdvertsPage() {
   const { max, min } = maxMin;
 
   useEffect(() => {
-    getAdverts().then((adverts) => setAdverts(adverts));
-  }, []);
+    getAdverts().then((adverts) => {
+      dispatch(advertsLoad(adverts));
+    });
+  }, [dispatch]);
 
   const handlerChangePrice = (event) => {
     setMaxMin((newPriceValue) => ({

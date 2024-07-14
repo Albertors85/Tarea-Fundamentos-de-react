@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewAdvert() {
   const navigate = useNavigate();
-
-  const [isButton, setIsButton ]= useState(false)
+  const [isButton, setIsButton] = useState(false);
   const [tagsValue, setTagsValue] = useState([]);
+  const [photo, setPhoto] = useState(null);
   const [formValue, setFormValue] = useState({
     name: "",
     price: "",
@@ -15,7 +15,6 @@ export default function NewAdvert() {
     situation: "Venta",
     tags: [],
   });
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,9 +25,11 @@ export default function NewAdvert() {
         price,
         info,
         situation,
+        photo: photo,
         tags: tagsValue,
       });
-      navigate("/");
+
+      navigate(`/adverts/${newAdvert.id}`);
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");
@@ -49,11 +50,21 @@ export default function NewAdvert() {
       checked ? [...curretTags, name] : curretTags.filter((tag) => tag !== name)
     );
   };
+  const handleFile = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  useEffect(()=>{
-    const  {name, price, info, situation}= formValue;
-    setIsButton(name&&price&&info&&situation&&tagsValue.length>0)
-  }, [formValue,tagsValue])
+  useEffect(() => {
+    const { name, price, info, situation } = formValue;
+    setIsButton(name && price && info && situation && tagsValue.length > 0);
+  }, [formValue, tagsValue, photo]);
 
   return (
     <Layout>
@@ -102,6 +113,9 @@ export default function NewAdvert() {
           onChange={handlerChange}
         />
         <br></br>
+        <label>Foto del artículo</label>
+        <input type="file" name="photo" onChange={handleFile}></input>
+        <br></br>
 
         <input
           type="checkbox"
@@ -136,7 +150,9 @@ export default function NewAdvert() {
         <label>Sport</label>
         <br></br>
 
-        <button type="submit" disabled={!isButton}>Agregar</button>
+        <button type="submit" disabled={!isButton}>
+          Agregar
+        </button>
       </form>
     </Layout>
   );

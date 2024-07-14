@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
 export const AuthContext = createContext();
-
 export const AuthContextProvider = ({ isDefaultLogged, children }) => {
   const [isLogged, setIsLogged] = useState(isDefaultLogged);
 
